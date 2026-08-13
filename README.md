@@ -1,14 +1,15 @@
-# Editorial
+# সম্পাদকীয় / Editorial
 
-A fast, self-hosted publishing application with a visual block editor and a documentation-inspired reading experience. It runs as one Next.js application with MariaDB/MySQL and local media storage—no WordPress and no hosted backend service.
+A Bangla-first, self-hosted publishing application with a visual block editor and a documentation-inspired reading experience. It runs as one Next.js application with MariaDB/MySQL and local media storage—no WordPress and no hosted backend service.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6) ![MariaDB](https://img.shields.io/badge/MariaDB-self--hosted-003545) ![License](https://img.shields.io/badge/license-MIT-6d5dfc)
 
 ## What is included
 
+- Bangla UI, content, Unicode slugs, Bengali dates, and dedicated Noto Sans/Serif Bengali typography
 - Persistent shadcn-docs-style header, left navigation, reading column, and table of contents
 - Responsive mobile navigation and command search (`Ctrl/Cmd + K`)
-- Light/dark themes, animated canvas background, word reveals, and route view transitions
+- Light/dark themes, Worknight-inspired animated grain field, word reveals, and route view transitions
 - Reduced-motion support and keyboard-visible focus states
 - Tiptap/ProseMirror block editor with headings, lists, quotes, links, images, tables, highlighting, alignment, section breaks, undo/redo, and HTML preview
 - Local autosave plus database publishing and immutable revisions
@@ -73,6 +74,21 @@ Requirements: Node.js 20.9 or newer, npm, and MariaDB/MySQL 10.4 or newer.
 Open [http://localhost:3000](http://localhost:3000). The seeded development account is `owner@editorial.local` with password `ChangeMe-Editorial-2026`; change it immediately outside local development.
 
 The public journal is at `/blog`, the writer studio is at `/studio`, the editor is at `/studio/new`, sign-in is at `/login`, and health status is at `/api/health`.
+
+### Open it from a phone on the same network
+
+Add the computer's LAN origin to `.env.local`, then bind Next.js to every local interface:
+
+```env
+BETTER_AUTH_URL=http://YOUR_LAN_IP:3000
+TRUSTED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://YOUR_LAN_IP:3000
+```
+
+```bash
+npm run dev -- --hostname 0.0.0.0
+```
+
+On the phone, open `http://YOUR_LAN_IP:3000/login`. Both devices must be on the same network. If Windows blocks the connection, mark that network **Private** and allow Node.js through Windows Defender Firewall; do not expose the development port on an untrusted public network.
 
 ## Commands
 

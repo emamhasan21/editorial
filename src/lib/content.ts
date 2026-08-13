@@ -5,61 +5,58 @@ export type NavigationSection = {
 
 export const navigation: NavigationSection[] = [
   {
-    title: "Discover",
+    title: "পাঠাগার",
     items: [
-      { title: "Introduction", href: "/" },
-      { title: "Latest stories", href: "/blog" },
-      { title: "Topics", href: "/topics" },
+      { title: "শুরু", href: "/" },
+      { title: "সাম্প্রতিক লেখা", href: "/blog" },
+      { title: "বিষয়", href: "/topics" },
     ],
   },
   {
-    title: "Publishing",
+    title: "প্রকাশনা",
     items: [
-      { title: "Writing guide", href: "/guides/writing" },
-      { title: "Block library", href: "/guides/blocks", badge: "New" },
-      { title: "Media", href: "/guides/media" },
-      { title: "Revisions", href: "/guides/revisions" },
+      { title: "লেখার নির্দেশিকা", href: "/guides/writing" },
+      { title: "ব্লক সংগ্রহ", href: "/guides/blocks", badge: "নতুন" },
+      { title: "ছবি ও মাধ্যম", href: "/guides/media" },
+      { title: "সংস্করণ", href: "/guides/revisions" },
     ],
   },
   {
-    title: "Workspace",
+    title: "লেখকের ঘর",
     items: [
-      { title: "Studio", href: "/studio" },
-      { title: "New post", href: "/studio/new" },
-      { title: "Settings", href: "/studio/settings" },
+      { title: "স্টুডিও", href: "/studio" },
+      { title: "নতুন লেখা", href: "/studio/new" },
+      { title: "সেটিংস", href: "/studio/settings" },
     ],
   },
 ];
 
 export const articles = [
   {
-    slug: "a-better-way-to-publish",
-    title: "A better way to publish on your own terms",
-    excerpt:
-      "The speed of a modern application with the calm, deliberate rhythm of a great reading experience.",
-    date: "August 13, 2026",
-    minutes: "6 min read",
-    category: "Notes",
-    accent: "#d9ffb8",
+    slug: "নিজের-শর্তে-প্রকাশনা",
+    title: "নিজের শর্তে প্রকাশ করার আরও সুন্দর পথ",
+    excerpt: "আধুনিক অ্যাপের গতি, মনোযোগী সম্পাদনার ছন্দ এবং পাঠকের জন্য নির্ভার এক অভিজ্ঞতা।",
+    date: "১৩ আগস্ট ২০২৬",
+    minutes: "৬ মিনিটের পাঠ",
+    category: "ভাবনা",
+    accent: "#c8ff4d",
   },
   {
-    slug: "designing-for-the-long-read",
-    title: "Designing for the long read",
-    excerpt:
-      "Typography, pacing, and tiny moments of motion that help a reader stay in the story.",
-    date: "August 9, 2026",
-    minutes: "8 min read",
-    category: "Design",
-    accent: "#c9dcff",
+    slug: "দীর্ঘ-পাঠের-নকশা",
+    title: "দীর্ঘ পাঠের জন্য নকশা",
+    excerpt: "হরফ, ছন্দ আর ছোট ছোট গতির মুহূর্ত—যা পাঠককে লেখার ভেতরে ধরে রাখে।",
+    date: "৯ আগস্ট ২০২৬",
+    minutes: "৮ মিনিটের পাঠ",
+    category: "নকশা",
+    accent: "#a8b7ff",
   },
   {
-    slug: "the-block-is-the-medium",
-    title: "The block is the medium",
-    excerpt:
-      "Why structured content gives writers freedom without turning the editor into a control panel.",
-    date: "August 2, 2026",
-    minutes: "5 min read",
-    category: "Publishing",
-    accent: "#ffd5e5",
+    slug: "ব্লকই-মাধ্যম",
+    title: "ব্লকই যখন প্রকাশের মাধ্যম",
+    excerpt: "গুছানো কনটেন্ট কীভাবে লেখককে স্বাধীনতা দেয়, অথচ সম্পাদককে জটিল করে না।",
+    date: "২ আগস্ট ২০২৬",
+    minutes: "৫ মিনিটের পাঠ",
+    category: "প্রকাশনা",
+    accent: "#ff9fc7",
   },
 ];

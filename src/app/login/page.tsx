@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { AuthForm } from "@/components/auth-form";
 import { auth } from "@/lib/auth";
 
-export const metadata: Metadata = { title: "Writer sign in" };
+export const metadata: Metadata = { title: "লেখক প্রবেশ" };
 
 export default async function LoginPage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -13,9 +13,9 @@ export default async function LoginPage() {
   return (
     <main className="site-container grid min-h-[calc(100vh-4rem)] place-items-center py-12">
       <div className="w-full max-w-md border bg-card p-6 shadow-[var(--shadow)] sm:p-9">
-        <Link href="/" className="inline-flex items-center gap-2 font-semibold"><span className="grid size-7 place-items-center bg-foreground text-xs text-background">E</span>editorial</Link>
-        <h1 className="mt-8 text-3xl font-semibold tracking-[-0.04em]">Enter the studio.</h1>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">Sign in to write, revise, publish, and collaborate with your team.</p>
+        <Link href="/" className="inline-flex items-center gap-2 font-semibold"><span className="grid size-8 place-items-center rounded-full bg-foreground text-xs text-background">স</span>সম্পাদকীয়</Link>
+        <h1 className="mt-8 text-3xl font-semibold tracking-[-0.04em]">স্টুডিওতে প্রবেশ করুন।</h1>
+        <p className="mt-2 text-sm leading-7 text-muted-foreground">লিখতে, সম্পাদনা করতে, প্রকাশ করতে এবং দলের সঙ্গে কাজ করতে সাইন ইন করুন।</p>
         <AuthForm />
       </div>
     </main>

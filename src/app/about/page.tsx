@@ -3,19 +3,19 @@ import { DocsShell } from "@/components/docs-shell";
 import { Reveal, WordReveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
 
-export const metadata: Metadata = { title: "About" };
+export const metadata: Metadata = { title: "আমাদের কথা" };
 
 export default function AboutPage() {
   return (
-    <DocsShell>
-      <Reveal><p className="font-mono text-xs uppercase tracking-[0.2em] text-brand">About</p></Reveal>
-      <WordReveal className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">A quiet home for ambitious writing.</WordReveal>
-      <div className="reading-copy mt-8">
-        <p>Editorial is a fully self-hosted publishing application for a small, serious team. It combines a visual block editor with a fast, carefully designed public site.</p>
-        <h2 id="principles">Built around durable choices</h2>
-        <p>Content is stored as structured data. Media stays on your own server. The database, search index, sessions, and published HTML remain under your control. There is no third-party backend dependency.</p>
-        <h2 id="start">Designed to grow deliberately</h2>
-        <p>The first deployment fits a modest VPS, while the boundaries around media, jobs, and caching make it possible to scale those pieces later without rewriting the application.</p>
+    <DocsShell toc={[{ title: "সম্পাদকীয়", href: "#overview" }, { title: "আমাদের নীতি", href: "#principles" }, { title: "আগামীর পথ", href: "#start" }]}>
+      <Reveal><p className="eyebrow text-brand">আমাদের কথা</p></Reveal>
+      <WordReveal className="mt-4 text-4xl font-semibold leading-[1.15] tracking-[-0.045em] sm:text-6xl">মনোযোগী বাংলা লেখার নিরিবিলি ঘর।</WordReveal>
+      <div id="overview" className="reading-copy mt-10">
+        <p>সম্পাদকীয় ছোট কিন্তু মনোযোগী একটি দলের জন্য সম্পূর্ণ স্বনির্ভর প্রকাশনা অ্যাপ। এতে দৃশ্যমান ব্লক সম্পাদক এবং দ্রুত, যত্নে নকশা করা পাঠের সাইট একই সঙ্গে থাকে।</p>
+        <h2 id="principles">দীর্ঘস্থায়ী সিদ্ধান্তে তৈরি</h2>
+        <p>কনটেন্ট থাকে গুছানো ডেটা হিসেবে। ছবি, ডেটাবেস, খোঁজ, সেশন এবং প্রকাশিত লেখা থাকে আপনার নিজের সার্ভারে। কোনো তৃতীয় পক্ষের ব্যাকএন্ড অপরিহার্য নয়।</p>
+        <h2 id="start">ধীরে ও সুন্দরভাবে বড় হওয়ার জন্য</h2>
+        <p>প্রথম সংস্করণটি অল্প ক্ষমতার ভিপিএসেই চলে। পরে পাঠক বাড়লে ছবি, কাজের সারি এবং ক্যাশ আলাদা করে বড় করা যাবে—পুরো অ্যাপ নতুন করে না লিখেই।</p>
       </div>
       <SiteFooter />
     </DocsShell>

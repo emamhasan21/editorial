@@ -60,12 +60,12 @@ export function DocsShell({
 
       <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] border-l py-14 pl-8 xl:block">
         <div className="text-sm">
-          <p className="mb-3 font-medium">On this page</p>
+          <p className="mb-3 font-medium">এই পাতায়</p>
           <nav className="space-y-2.5 border-l pl-4 text-muted-foreground">
             {(toc ?? [
-              { title: "Overview", href: "#overview" },
-              { title: "Principles", href: "#principles" },
-              { title: "Start publishing", href: "#start" },
+              { title: "এক নজরে", href: "#overview" },
+              { title: "মূলনীতি", href: "#principles" },
+              { title: "প্রকাশ শুরু", href: "#start" },
             ]).map((item) => (
               <a
                 key={item.href}

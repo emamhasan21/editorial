@@ -16,9 +16,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { navigation } from "@/lib/content";
 
 const primaryLinks = [
-  { href: "/blog", label: "Writing" },
-  { href: "/topics", label: "Topics" },
-  { href: "/guides/writing", label: "Guide" },
+  { href: "/blog", label: "লেখা" },
+  { href: "/topics", label: "বিষয়" },
+  { href: "/guides/writing", label: "নির্দেশিকা" },
 ];
 
 export function SiteHeader() {
@@ -60,10 +60,10 @@ export function SiteHeader() {
   return (
     <>
       <header className="site-header glass sticky top-0 z-50 border-b">
-        <div className="site-container flex h-16 items-center gap-4">
+        <div className="site-container relative flex h-16 items-center gap-4">
           <button
             type="button"
-            aria-label="Open navigation"
+            aria-label="মেনু খুলুন"
             onClick={() => setMenuOpen(true)}
             className="grid size-9 place-items-center text-muted-foreground hover:text-foreground lg:hidden"
           >
@@ -71,18 +71,18 @@ export function SiteHeader() {
           </button>
 
           <Link href="/" className="group flex items-center gap-2 font-semibold tracking-tight">
-            <span className="grid size-7 place-items-center bg-foreground text-xs text-background transition-transform duration-300 group-hover:-rotate-3">
-              E
+            <span className="grid size-8 place-items-center rounded-full bg-foreground text-sm text-background transition-transform duration-500 group-hover:rotate-[18deg]">
+              স
             </span>
-            <span>editorial</span>
+            <span>সম্পাদকীয়</span>
           </Link>
 
-          <nav className="ml-4 hidden items-center gap-5 text-sm text-muted-foreground md:flex">
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 rounded-full border bg-muted/85 p-1 text-sm text-muted-foreground shadow-lg backdrop-blur-xl md:flex">
             {primaryLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-foreground"
+                className={`rounded-full px-3.5 py-1.5 transition-colors hover:bg-background hover:text-foreground ${pathname === link.href ? "bg-background text-foreground" : ""}`}
               >
                 {link.label}
               </Link>
@@ -96,7 +96,7 @@ export function SiteHeader() {
               className="hidden h-9 w-56 items-center gap-2 border bg-muted/60 px-3 text-left text-sm text-muted-foreground transition-colors hover:bg-muted sm:flex"
             >
               <Search className="size-4" />
-              <span>Search...</span>
+              <span>খুঁজুন...</span>
               <kbd className="ml-auto flex items-center gap-0.5 border bg-background px-1.5 py-0.5 font-mono text-[10px]">
                 <Command className="size-2.5" />K
               </kbd>
@@ -104,7 +104,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              aria-label="Search"
+              aria-label="খুঁজুন"
               className="grid size-9 place-items-center text-muted-foreground hover:text-foreground sm:hidden"
             >
               <Search className="size-4" />
@@ -113,7 +113,7 @@ export function SiteHeader() {
               href="https://github.com"
               target="_blank"
               rel="noreferrer"
-              aria-label="GitHub"
+              aria-label="গিটহাব"
               className="grid size-9 place-items-center text-muted-foreground hover:text-foreground"
             >
               <GitBranch className="size-4" />
@@ -121,7 +121,7 @@ export function SiteHeader() {
             <button
               type="button"
               onClick={toggleTheme}
-              aria-label="Toggle theme"
+              aria-label="রং বদলান"
               className="grid size-9 place-items-center text-muted-foreground hover:text-foreground"
             >
               <Sun className="theme-icon-dark size-4" />
@@ -129,9 +129,9 @@ export function SiteHeader() {
             </button>
             <Link
               href="/studio/new"
-              className="ml-1 hidden h-9 items-center bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 md:flex"
+              className="ml-1 hidden h-9 items-center rounded-full bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 lg:flex"
             >
-              Start writing
+              লেখা শুরু
             </Link>
           </div>
         </div>
@@ -155,10 +155,10 @@ export function SiteHeader() {
               className="h-full w-[min(86vw,340px)] overflow-y-auto border-r bg-background p-6 shadow-2xl"
             >
               <div className="mb-8 flex items-center justify-between">
-                <span className="font-semibold">Navigate</span>
+                <span className="font-semibold">সব পাতা</span>
                 <button
                   type="button"
-                  aria-label="Close navigation"
+                  aria-label="মেনু বন্ধ করুন"
                   onClick={() => setMenuOpen(false)}
                   className="grid size-9 place-items-center border"
                 >
@@ -182,7 +182,7 @@ export function SiteHeader() {
           >
             <motion.div
               role="dialog"
-              aria-label="Search"
+              aria-label="খুঁজুন"
               initial={{ opacity: 0, y: -12, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -195,7 +195,7 @@ export function SiteHeader() {
                   autoFocus
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search posts, topics, and guides..."
+                  placeholder="লেখা, বিষয় ও নির্দেশিকা খুঁজুন..."
                   className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
                 <kbd className="border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
@@ -204,7 +204,7 @@ export function SiteHeader() {
               </div>
               <div className="max-h-[52vh] overflow-y-auto p-2">
                 <p className="px-2 py-2 text-xs font-medium text-muted-foreground">
-                  {query ? "Results" : "Quick links"}
+                  {query ? "ফলাফল" : "দ্রুত যান"}
                 </p>
                 {results.map((item) => (
                   <button
@@ -222,7 +222,7 @@ export function SiteHeader() {
                 ))}
                 {!results.length && (
                   <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-                    No page found for “{query}”.
+                    “{query}” নামে কোনো পাতা পাওয়া যায়নি।
                   </p>
                 )}
               </div>
@@ -262,7 +262,7 @@ function MobileNavigation({
               >
                 {item.title}
                 {item.badge && (
-                  <span className="bg-brand px-1.5 py-0.5 text-[10px] text-white">
+                  <span className="bg-brand px-1.5 py-0.5 text-[10px] text-black">
                     {item.badge}
                   </span>
                 )}
