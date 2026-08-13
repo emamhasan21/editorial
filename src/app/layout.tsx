@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s — Editorial",
   },
   description:
-    "A fast, self-hosted publishing studio with a visual block editor.",
+    "বাংলা সাহিত্য পাঠ, সংরক্ষণ ও প্রকাশনার জন্য একটি দ্রুত, স্বনির্ভর প্ল্যাটফর্ম।",
 };
 
 const themeScript = `
@@ -33,7 +33,7 @@ const themeScript = `
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="bn"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}

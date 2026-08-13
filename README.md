@@ -105,7 +105,7 @@ Authentication and authorization checks live at API/data boundaries. UI visibili
 
 ## Deployment
 
-See [docs/deployment.md](docs/deployment.md) for an IP-only VPS setup designed for 1 vCPU, 1 GB RAM, and an existing WordPress/MariaDB server. WordPress can remain on ports 80/443 while Editorial runs on port 3000 during testing.
+See [docs/deployment.md](docs/deployment.md) for an IP-only VPS setup designed for 1 vCPU, 1 GB RAM, and an existing WordPress/MariaDB server. Editorial listens privately on port 3000 and Nginx exposes it through the server IP on port 80 while the WordPress domain remains on its own host.
 
 ## Repository notes
 

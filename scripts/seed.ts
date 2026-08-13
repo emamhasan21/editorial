@@ -15,10 +15,11 @@ async function seed() {
 
   const email = process.env.SEED_OWNER_EMAIL ?? "owner@editorial.local";
   const password = process.env.SEED_OWNER_PASSWORD ?? "ChangeMe-Editorial-2026";
+  const ownerName = process.env.SEED_OWNER_NAME ?? "Editorial Owner";
   let [owner] = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
 
   if (!owner) {
-    await auth.api.signUpEmail({ body: { name: "Editorial Owner", email, password } });
+    await auth.api.signUpEmail({ body: { name: ownerName, email, password } });
     [owner] = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
   }
   if (!owner) throw new Error("Could not create the seed owner account");
@@ -102,10 +103,10 @@ async function seed() {
 
   await db.insert(schema.chapterRevisions).values({ id: "revision_chapter_seed", chapterId, userId: owner.id, title: "প্রথম যাত্রা", document: chapterDocument, renderedHtml: chapterRendered.html, changeNote: "Seeded first version" }).onDuplicateKeyUpdate({ set: { renderedHtml: chapterRendered.html } });
 
-  await db.insert(schema.settings).values({ key: "publication", value: { name: "Editorial", description: "Own your words. Publish beautifully.", locale: "bn" } }).onDuplicateKeyUpdate({ set: { value: { name: "Editorial", description: "Own your words. Publish beautifully.", locale: "bn" } } });
+  await db.insert(schema.settings).values({ key: "publication", value: { name: "Editorial", description: "বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।", locale: "bn" } }).onDuplicateKeyUpdate({ set: { value: { name: "Editorial", description: "বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।", locale: "bn" } } });
 
   console.log(`Seed complete. Owner: ${email}`);
-  console.log(`Development password: ${password}`);
+  if (process.env.NODE_ENV !== "production") console.log(`Development password: ${password}`);
   process.exit(0);
 }
 

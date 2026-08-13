@@ -48,7 +48,7 @@ export default function Home() {
             </WordReveal>
             <Reveal delay={0.28}>
               <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Editorial is a self-hosted writing platform with the speed of an app,
+                Editorial is a self-hosted Bangla literary platform with the speed of an app,
                 the flexibility of a block editor, and a reading experience that stays out
                 of the way.
               </p>

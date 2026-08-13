@@ -11,7 +11,7 @@ export default function AboutPage() {
       <Reveal><p className="font-mono text-xs uppercase tracking-[0.2em] text-brand">About</p></Reveal>
       <WordReveal className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">A quiet home for ambitious writing.</WordReveal>
       <div className="reading-copy mt-8">
-        <p>Editorial is a fully self-hosted publishing application for a small, serious team. It combines a visual block editor with a fast, carefully designed public site.</p>
+        <p>Editorial is a fully self-hosted Bangla literary publishing application for a small, serious team. It combines a visual block editor with a fast, carefully designed public reading site.</p>
         <h2 id="principles">Built around durable choices</h2>
         <p>Content is stored as structured data. Media stays on your own server. The database, search index, sessions, and published HTML remain under your control. There is no third-party backend dependency.</p>
         <h2 id="start">Designed to grow deliberately</h2>
