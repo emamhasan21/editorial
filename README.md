@@ -10,9 +10,12 @@ A fast, self-hosted publishing application with a visual block editor and a docu
 - Responsive mobile navigation and command search (`Ctrl/Cmd + K`)
 - Light/dark themes, animated canvas background, word reveals, and route view transitions
 - Reduced-motion support and keyboard-visible focus states
-- Tiptap/ProseMirror block editor with headings, lists, quotes, links, images, tables, highlighting, alignment, section breaks, undo/redo, and HTML preview
+- Tiptap/ProseMirror block editor with headings, lists, quotes, links, images, tables, highlighting, alignment, section breaks, verse, footnotes, author notes, spoilers, code, undo/redo, and HTML preview
 - Local autosave plus database publishing and immutable revisions
-- Multi-writer data model with owner, editor, writer, and contributor roles
+- Separate account roles (`owner`, `admin`, `managing_editor`, `editor`, `writer`, `contributor`, `reader`) and literary author identities
+- Classic authors without accounts, current authors linked to accounts, and ordered multi-author/translator/editor credits
+- Standalone releases for stories, poems, essays, articles, reviews, interviews, and notes
+- Series, works, editions/books, independently stored chapters, chapter revisions, and reading-progress schema
 - Email/password accounts and database sessions through self-hosted Better Auth
 - Posts, co-authors, media, categories, tags, comments, reactions, bookmarks, reusable patterns, and settings
 - Sanitized server-side HTML rendering, derived plain text, and generated table of contents
@@ -72,7 +75,7 @@ Requirements: Node.js 20.9 or newer, npm, and MariaDB/MySQL 10.4 or newer.
 
 Open [http://localhost:3000](http://localhost:3000). The seeded development account is `owner@editorial.local` with password `ChangeMe-Editorial-2026`; change it immediately outside local development.
 
-The public journal is at `/blog`, the writer studio is at `/studio`, the editor is at `/studio/new`, sign-in is at `/login`, and health status is at `/api/health`.
+The public library is at `/books`, `/series`, `/writers`, and `/releases`. The writer studio is at `/studio`; release and chapter editors are at `/studio/new` and `/studio/chapters/new`. Sign-in is at `/login`, and health status is at `/api/health`.
 
 ## Commands
 
@@ -87,14 +90,16 @@ The public journal is at `/blog`, the writer studio is at `/studio`, the editor 
 | `npm run test:e2e` | Desktop and mobile browser tests |
 | `npm run db:generate` | Generate a migration after schema changes |
 | `npm run db:migrate` | Apply committed migrations |
-| `npm run db:seed` | Add the owner, categories, settings, and first post |
+| `npm run db:seed` | Add the owner, author profiles, series, book, chapter, settings, and first release |
 | `npm run db:studio` | Open Drizzle Studio |
 
 Install Playwright’s isolated test browser once before the first end-to-end run: `npx playwright install chromium`.
 
 ## Content architecture
 
-The editor saves portable Tiptap JSON as the canonical document. On publish, the server validates the payload, generates semantic HTML, sanitizes it, extracts plain text and headings, and creates a permanent revision. Public pages render the sanitized HTML, while the original JSON remains available for future editing and migrations.
+The editors save portable Tiptap JSON as the canonical document. On publish, the server validates the payload, generates semantic HTML, sanitizes it, extracts plain text and headings, and creates a permanent revision. Public pages render the sanitized HTML, while the original JSON remains available for future editing and migrations.
+
+Books never store one giant body. Every chapter is an indexed document with its own URL, status, rendered output, table of contents, word count, and revision history. This keeps large works responsive and keeps database requests small enough for the target 1 GB RAM VPS.
 
 Authentication and authorization checks live at API/data boundaries. UI visibility is never treated as the security boundary.
 

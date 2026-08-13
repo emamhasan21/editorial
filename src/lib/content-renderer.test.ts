@@ -18,4 +18,20 @@ describe("content renderer", () => {
   it("keeps Bangla letters in slugs", () => {
     expect(slugify("বাংলা সাহিত্যের নতুন পথ")).toBe("বাংলা-সাহিত্যের-নতুন-পথ");
   });
+
+  it("renders literary blocks without discarding their semantics", () => {
+    const result = renderDocument({
+      type: "doc",
+      content: [
+        { type: "verse", content: [{ type: "text", text: "A line of verse" }] },
+        { type: "footnote", content: [{ type: "text", text: "A source note" }] },
+        { type: "authorNote", content: [{ type: "text", text: "From the author" }] },
+        { type: "spoiler", content: [{ type: "text", text: "A hidden turn" }] },
+      ],
+    });
+    expect(result.html).toContain('data-type="verse"');
+    expect(result.html).toContain('class="literary-footnote"');
+    expect(result.html).toContain('data-type="authorNote"');
+    expect(result.html).toContain('class="literary-spoiler"');
+  });
 });

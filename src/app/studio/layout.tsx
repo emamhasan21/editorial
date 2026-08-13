@@ -2,10 +2,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { StudioNav } from "@/components/studio-nav";
 import { auth } from "@/lib/auth";
+import { canAccessStudio } from "@/lib/permissions";
 
 export default async function StudioLayout({ children }: LayoutProps<"/studio">) {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/login");
+  if (!session || !canAccessStudio(session.user.role)) redirect("/login");
   return (
     <div className="site-container min-h-[calc(100vh-4rem)] lg:grid lg:grid-cols-[210px_minmax(0,1fr)]">
       <aside className="border-b lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:border-b-0 lg:border-r">

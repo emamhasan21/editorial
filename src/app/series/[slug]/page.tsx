@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ContributorLinks } from "@/components/contributor-links";
+import { DocsShell } from "@/components/docs-shell";
+import { SiteFooter } from "@/components/site-footer";
+import { getSeriesBySlug } from "@/data/library";
+
+export const dynamic = "force-dynamic";
+export async function generateMetadata({ params }: PageProps<"/series/[slug]">): Promise<Metadata> { const { slug } = await params; const data = await getSeriesBySlug(slug); return data ? { title: data.series.title, description: data.series.description || undefined } : {}; }
+export default async function SeriesDetailPage({ params }: PageProps<"/series/[slug]">) { const { slug } = await params; const data = await getSeriesBySlug(slug); if (!data) notFound(); const { series, books, contributors } = data; return <DocsShell toc={[{ title: "Series overview", href: "#overview" }, { title: "Volumes", href: "#volumes" }]}><header id="overview" className="border-b pb-10"><div className="mb-7 aspect-[16/6] border" style={{ background: series.accentColor || "#c9dcff" }} /><p className="font-mono text-xs uppercase tracking-widest text-brand">{series.status} series</p><h1 className="mt-3 text-4xl font-semibold tracking-[-.045em] sm:text-5xl">{series.title}</h1>{series.subtitle && <p className="mt-3 text-xl text-muted-foreground">{series.subtitle}</p>}<p className="mt-5 max-w-2xl leading-7 text-muted-foreground">{series.description}</p><p className="mt-5 text-sm text-muted-foreground"><ContributorLinks contributors={contributors} /></p></header><section id="volumes" className="py-10"><h2 className="text-xl font-semibold">Volumes</h2><div className="mt-4 grid gap-4 sm:grid-cols-2">{books.map((book, index) => <Link key={book.id} href={`/books/${book.slug}`} className="group flex gap-4 border p-4 hover:bg-muted/40"><div className="grid aspect-[2/3] w-20 shrink-0 place-items-center bg-foreground text-background">{index + 1}</div><div><p className="font-mono text-[10px] uppercase text-muted-foreground">Volume {book.volumeOrder || index + 1}</p><h3 className="mt-2 font-semibold group-hover:underline">{book.title}</h3><p className="mt-2 line-clamp-3 text-xs leading-5 text-muted-foreground">{book.description}</p></div></Link>)}</div></section><SiteFooter /></DocsShell>; }

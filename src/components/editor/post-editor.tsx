@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useSyncExternalStore } from "react";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
@@ -17,6 +17,7 @@ import {
   ChevronDown,
   Code2,
   Eye,
+  FileText,
   Heading1,
   Heading2,
   Heading3,
@@ -40,6 +41,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { AuthorNote, Footnote, Spoiler, Verse } from "@/lib/literary-extensions";
 import { cn } from "@/lib/utils";
 
 type SaveState = "idle" | "saving" | "saved";
@@ -50,8 +52,21 @@ const initialContent = `
   <p>The editor stores structured content while keeping the writing surface calm and direct.</p>
 `;
 
-export function PostEditor() {
+type AuthorOption = { id: string; name: string; kind: string };
+
+export function PostEditor(props: { authors?: AuthorOption[] }) {
+  const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false);
+  if (!isClient) return <div className="min-h-[70vh] animate-pulse border bg-muted/30" aria-label="Loading release editor" />;
+  return <PostEditorCore {...props} />;
+}
+
+function PostEditorCore({ authors = [] }: { authors?: AuthorOption[] }) {
   const [title, setTitle] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [kicker, setKicker] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [releaseType, setReleaseType] = useState("article");
+  const [authorId, setAuthorId] = useState("");
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [preview, setPreview] = useState(false);
   const [blockMenu, setBlockMenu] = useState(false);
@@ -73,7 +88,7 @@ export function PostEditor() {
   }, [title]);
 
   const editor = useEditor({
-    immediatelyRender: false,
+    immediatelyRender: true,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
@@ -84,6 +99,10 @@ export function PostEditor() {
       Placeholder.configure({ placeholder: "Tell your story…" }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TableKit.configure({ table: { resizable: true } }),
+      Verse,
+      Footnote,
+      AuthorNote,
+      Spoiler,
     ],
     content: initialContent,
     editorProps: {
@@ -123,7 +142,7 @@ export function PostEditor() {
 
   async function publishNow() {
     if (!editor || !title.trim()) {
-      setPublishMessage("Add a post title before publishing.");
+      setPublishMessage("Add a release title before publishing.");
       return;
     }
     setPublishing(true);
@@ -133,9 +152,14 @@ export function PostEditor() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: title.trim(),
+        subtitle: subtitle.trim() || undefined,
+        kicker: kicker.trim() || undefined,
+        excerpt: excerpt.trim() || undefined,
+        releaseType,
         document: editor.getJSON(),
         status: "published",
         visibility: "public",
+        contributors: authorId ? [{ authorId, role: "author" }] : [],
       }),
     });
     const result = await response.json().catch(() => null);
@@ -150,7 +174,7 @@ export function PostEditor() {
     }
     saveNow();
     setPublished(true);
-    setPublishMessage(`Published at /blog/${result.data.slug}`);
+    setPublishMessage(`Published at /releases/${result.data.slug}`);
   }
 
   const saveLabel = saveState === "saving" ? "Saving…" : saveState === "saved" ? "Saved locally" : "Draft";
@@ -159,7 +183,7 @@ export function PostEditor() {
     <div className="mx-auto max-w-6xl">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b pb-5">
         <div>
-          <p className="font-mono text-xs uppercase tracking-widest text-brand">New post</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-brand">New standalone release</p>
           <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
             {saveState === "saved" ? <Check className="size-3 text-emerald-500" /> : <Save className="size-3" />}
             {saveLabel}
@@ -182,26 +206,25 @@ export function PostEditor() {
                 onChange={(event) => { setTitle(event.target.value); setSaveState("idle"); }}
                 onBlur={saveNow}
                 rows={1}
-                placeholder="Post title"
-                aria-label="Post title"
+                placeholder="Release title"
+                aria-label="Release title"
                 className="mb-8 w-full resize-none overflow-hidden bg-transparent text-4xl font-semibold leading-tight tracking-[-0.045em] outline-none placeholder:text-muted-foreground/45 sm:text-5xl"
               />
+              <input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} placeholder="Optional subtitle" className="mb-8 w-full bg-transparent text-xl text-muted-foreground outline-none placeholder:text-muted-foreground/45" />
               <div className="editor-content"><EditorContent editor={editor} /></div>
             </div>
           </section>
 
           <aside className="space-y-5">
-            <Panel title="Post">
+            <Panel title="Release">
               <Field label="Status" value="Draft" />
               <Field label="Visibility" value="Public" />
-              <Field label="Publish" value="Immediately" />
-              <Field label="Author" value="Emam Hasan" />
+              <label className="mt-3 block text-xs font-medium text-muted-foreground">Format<select value={releaseType} onChange={(event) => setReleaseType(event.target.value)} className="mt-1.5 h-9 w-full border bg-background px-2 text-sm text-foreground outline-none"><option value="story">Story</option><option value="poem">Poem</option><option value="essay">Essay</option><option value="article">Article</option><option value="review">Review</option><option value="interview">Interview</option><option value="note">Note</option></select></label>
             </Panel>
-            <Panel title="Organization">
-              <label className="block text-xs font-medium text-muted-foreground">Category<select className="mt-1.5 h-9 w-full border bg-background px-2 text-sm text-foreground outline-none"><option>Writing</option><option>Design</option><option>Publishing</option></select></label>
-              <label className="mt-4 block text-xs font-medium text-muted-foreground">Tags<input className="mt-1.5 h-9 w-full border bg-background px-2 text-sm text-foreground outline-none" placeholder="Add a tag…" /></label>
+            <Panel title="Credit">
+              <label className="block text-xs font-medium text-muted-foreground">Primary author<select value={authorId} onChange={(event) => setAuthorId(event.target.value)} className="mt-1.5 h-9 w-full border bg-background px-2 text-sm text-foreground outline-none"><option value="">Use my linked profile</option>{authors.map((author) => <option key={author.id} value={author.id}>{author.name} · {author.kind}</option>)}</select></label>
             </Panel>
-            <Panel title="Excerpt"><textarea rows={4} className="w-full resize-y border bg-background p-2 text-sm leading-5 outline-none" placeholder="Write a short summary…" /></Panel>
+            <Panel title="Discovery"><label className="block text-xs font-medium text-muted-foreground">Kicker<input value={kicker} onChange={(event) => setKicker(event.target.value)} className="mt-1.5 h-9 w-full border bg-background px-2 text-sm text-foreground outline-none" placeholder="A short eyebrow" /></label><label className="mt-4 block text-xs font-medium text-muted-foreground">Excerpt<textarea value={excerpt} onChange={(event) => setExcerpt(event.target.value)} rows={4} className="mt-1.5 w-full resize-y border bg-background p-2 text-sm leading-5 outline-none" placeholder="Search and card summary" /></label></Panel>
           </aside>
         </div>
       )}
@@ -209,7 +232,8 @@ export function PostEditor() {
       {preview && (
         <div className="mx-auto max-w-[760px] border bg-background px-6 py-12 shadow-[var(--shadow)] sm:px-14 sm:py-16">
           <p className="font-mono text-xs uppercase tracking-widest text-brand">Preview</p>
-          <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-5xl">{title || "Untitled post"}</h1>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-[-0.045em] sm:text-5xl">{title || "Untitled release"}</h1>
+          {subtitle && <p className="mt-4 text-xl text-muted-foreground">{subtitle}</p>}
           <p className="mt-5 text-sm text-muted-foreground">Emam Hasan · Draft preview</p>
           <div className="reading-copy mt-10" dangerouslySetInnerHTML={{ __html: previewHtml }} />
         </div>
@@ -219,8 +243,8 @@ export function PostEditor() {
         {publishOpen && (
           <motion.div className="fixed inset-0 z-[90] grid place-items-center bg-black/45 p-4 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setPublishOpen(false)}>
             <motion.div initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 12, opacity: 0 }} onClick={(event) => event.stopPropagation()} className="w-full max-w-md border bg-background p-6 shadow-2xl">
-              <div className="flex items-start justify-between"><div><h2 className="text-lg font-semibold">Ready to publish?</h2><p className="mt-1 text-sm leading-6 text-muted-foreground">Review the URL, visibility, and timing before this post goes live.</p></div><button onClick={() => setPublishOpen(false)} aria-label="Close"><X className="size-4" /></button></div>
-              <div className="mt-5 space-y-4 border-y py-5"><Field label="Post" value={title || "Untitled post"} /><Field label="URL" value={`/blog/${slugify(title) || "untitled-post"}`} /><Field label="Visibility" value="Public" /></div>
+              <div className="flex items-start justify-between"><div><h2 className="text-lg font-semibold">Ready to publish?</h2><p className="mt-1 text-sm leading-6 text-muted-foreground">Review the URL, credit, and format before this release goes live.</p></div><button onClick={() => setPublishOpen(false)} aria-label="Close"><X className="size-4" /></button></div>
+              <div className="mt-5 space-y-4 border-y py-5"><Field label="Release" value={title || "Untitled release"} /><Field label="URL" value={`/releases/${slugify(title) || "untitled-release"}`} /><Field label="Visibility" value="Public" /></div>
               {publishMessage && <div className={`mt-5 flex items-start gap-2 p-3 text-sm ${published ? "bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100" : "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-100"}`}>{published && <Check className="mt-0.5 size-4 shrink-0" />}{publishMessage}</div>}
               {!published && <div className="mt-5 flex justify-end gap-2"><button type="button" onClick={() => setPublishOpen(false)} className="h-9 border px-3 text-sm">Cancel</button><button type="button" disabled={publishing} onClick={publishNow} className="h-9 bg-foreground px-4 text-sm font-medium text-background disabled:opacity-60">{publishing ? "Publishing…" : "Publish now"}</button></div>}
             </motion.div>
@@ -271,6 +295,10 @@ function BlockMenu({ editor, close, onAddImage }: { editor: Editor; close: () =>
     { label: "Image", hint: "From a URL", icon: ImageIcon, action: onAddImage },
     { label: "Table", hint: "3 × 3 with header", icon: Table2, action: () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run() },
     { label: "Section break", hint: "Visual divider", icon: Minus, action: () => editor.chain().focus().setHorizontalRule().run() },
+    { label: "Verse", hint: "Poetry with preserved lines", icon: Pilcrow, action: () => editor.chain().focus().insertContent({ type: "verse", content: [{ type: "text", text: "Write a verse here…" }] }).run() },
+    { label: "Footnote", hint: "Reference or citation", icon: Quote, action: () => editor.chain().focus().insertContent({ type: "footnote", content: [{ type: "text", text: "Add a footnote…" }] }).run() },
+    { label: "Author note", hint: "Editorial aside", icon: FileText, action: () => editor.chain().focus().insertContent({ type: "authorNote", content: [{ type: "text", text: "Add an author note…" }] }).run() },
+    { label: "Spoiler", hint: "Hidden until hover", icon: Eye, action: () => editor.chain().focus().insertContent({ type: "spoiler", content: [{ type: "text", text: "Add hidden text…" }] }).run() },
   ];
   return (
     <motion.div initial={{ opacity: 0, y: -4, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -3 }} className="absolute left-0 top-10 z-40 w-72 border bg-background p-2 shadow-2xl">
@@ -290,4 +318,5 @@ function Tool({ children, label, active, disabled, onClick }: { children: React.
 function Divider() { return <span className="mx-1 h-5 w-px bg-border" />; }
 function Panel({ title, children }: { title: string; children: React.ReactNode }) { return <section className="border bg-background p-4"><h2 className="mb-4 text-sm font-semibold">{title}</h2>{children}</section>; }
 function Field({ label, value }: { label: string; value: string }) { return <div className="flex items-start justify-between gap-3 border-b py-2 text-xs last:border-b-0"><span className="text-muted-foreground">{label}</span><span className="max-w-[65%] break-all text-right font-medium">{value}</span></div>; }
-function slugify(value: string) { return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); }
+function slugify(value: string) { return value.toLowerCase().trim().normalize("NFKD").replace(/[^a-z0-9\u0980-\u09ff]+/g, "-").replace(/(^-|-$)/g, ""); }
+function emptySubscribe() { return () => undefined; }

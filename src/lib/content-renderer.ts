@@ -6,6 +6,7 @@ import Image from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 import sanitizeHtml from "sanitize-html";
+import { AuthorNote, Footnote, Spoiler, Verse } from "@/lib/literary-extensions";
 
 const extensions = [
   StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
@@ -13,6 +14,10 @@ const extensions = [
   Image,
   TextAlign.configure({ types: ["heading", "paragraph"] }),
   TableKit,
+  Verse,
+  Footnote,
+  AuthorNote,
+  Spoiler,
 ];
 
 export type TocEntry = { id: string; text: string; level: number };
@@ -23,12 +28,12 @@ export function renderDocument(document: JSONContent) {
     allowedTags: [
       "p", "h1", "h2", "h3", "strong", "em", "u", "s", "mark", "code", "pre",
       "blockquote", "ul", "ol", "li", "a", "img", "hr", "br", "table", "thead",
-      "tbody", "tr", "th", "td",
+      "tbody", "tr", "th", "td", "aside", "div",
     ],
     allowedAttributes: {
       a: ["href", "target", "rel"],
       img: ["src", "alt", "title", "width", "height", "loading"],
-      "*": ["style"],
+      "*": ["style", "class", "data-type"],
     },
     allowedStyles: {
       "*": { "text-align": [/^left$/, /^center$/, /^right$/, /^justify$/] },

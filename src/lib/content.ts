@@ -9,7 +9,16 @@ export const navigation: NavigationSection[] = [
     items: [
       { title: "Introduction", href: "/" },
       { title: "Latest stories", href: "/blog" },
+      { title: "Standalone releases", href: "/releases" },
       { title: "Topics", href: "/topics" },
+    ],
+  },
+  {
+    title: "Library",
+    items: [
+      { title: "Books", href: "/books" },
+      { title: "Series", href: "/series" },
+      { title: "Writers", href: "/writers" },
     ],
   },
   {
@@ -25,7 +34,8 @@ export const navigation: NavigationSection[] = [
     title: "Workspace",
     items: [
       { title: "Studio", href: "/studio" },
-      { title: "New post", href: "/studio/new" },
+      { title: "New release", href: "/studio/new" },
+      { title: "New chapter", href: "/studio/chapters/new" },
       { title: "Settings", href: "/studio/settings" },
     ],
   },

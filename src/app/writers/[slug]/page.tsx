@@ -1,0 +1,15 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { DocsShell } from "@/components/docs-shell";
+import { SiteFooter } from "@/components/site-footer";
+import { getAuthorBySlug } from "@/data/library";
+
+export const dynamic = "force-dynamic";
+export async function generateMetadata({ params }: PageProps<"/writers/[slug]">): Promise<Metadata> { const { slug } = await params; const data = await getAuthorBySlug(slug); return data ? { title: data.author.name, description: data.author.bio || undefined } : {}; }
+
+export default async function WriterPage({ params }: PageProps<"/writers/[slug]">) {
+  const { slug } = await params; const data = await getAuthorBySlug(slug); if (!data) notFound(); const { author, books, releases } = data;
+  return <DocsShell toc={[{ title: "Biography", href: "#biography" }, { title: "Books", href: "#books" }, { title: "Releases", href: "#releases" }]}><article><header className="grid gap-7 border-b pb-10 sm:grid-cols-[110px_1fr]"><div className="grid aspect-square place-items-center bg-foreground text-4xl font-semibold text-background">{author.name.slice(0, 1)}</div><div><div className="flex flex-wrap gap-2"><span className="border px-2 py-1 font-mono text-[10px] uppercase">{author.kind}</span>{author.publicDomain && <span className="bg-emerald-100 px-2 py-1 font-mono text-[10px] uppercase text-emerald-900">Public domain</span>}</div><h1 className="mt-4 text-4xl font-semibold tracking-[-.045em] sm:text-5xl">{author.name}</h1>{author.englishName && <p className="mt-2 text-lg text-muted-foreground">{author.englishName}</p>}<p className="mt-4 max-w-2xl leading-7 text-muted-foreground">{author.bio || "Biography in preparation."}</p></div></header><section id="biography" className="reading-copy py-10"><h2>Biography</h2><p>{author.longBio || author.bio || "The editorial team is preparing a verified biography and bibliography."}</p>{author.genres.length > 0 && <p><strong>Genres:</strong> {author.genres.join(" · ")}</p>}{author.copyrightNote && <p className="literary-author-note">{author.copyrightNote}</p>}</section><WorkList id="books" title="Books" items={books.map((book) => ({ href: `/books/${book.slug}`, title: book.title, note: book.description || book.status }))} /><WorkList id="releases" title="Standalone releases" items={releases.map((release) => ({ href: `/releases/${release.slug}`, title: release.title, note: release.type }))} /><SiteFooter /></article></DocsShell>;
+}
+function WorkList({ id, title, items }: { id: string; title: string; items: { href: string; title: string; note: string }[] }) { return <section id={id} className="mb-10 scroll-mt-24"><h2 className="border-b pb-3 text-xl font-semibold">{title}</h2>{items.length ? items.map((item) => <Link key={item.href} href={item.href} className="flex items-center justify-between gap-4 border-b py-4 hover:bg-muted/40"><span className="font-medium">{item.title}</span><span className="text-xs capitalize text-muted-foreground">{item.note}</span></Link>) : <p className="py-5 text-sm text-muted-foreground">No published items yet.</p>}</section>; }
