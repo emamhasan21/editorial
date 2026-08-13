@@ -20,19 +20,19 @@ export function ReactionBar() {
 
   return (
     <div className="my-10 flex flex-wrap items-center gap-2 border-y py-4">
-      <button type="button" onClick={() => setClaps((value) => value + 1)} className="inline-flex h-9 items-center gap-2 border px-3 text-sm transition-colors hover:bg-muted" aria-label="লেখাটিতে হাততালি দিন">
-        <Heart className="size-4" /> {claps.toLocaleString("bn-BD")}
+      <button type="button" onClick={() => setClaps((value) => value + 1)} className="inline-flex h-9 items-center gap-2 border px-3 text-sm transition-colors hover:bg-muted" aria-label="Clap for this post">
+        <Heart className="size-4" /> {claps}
       </button>
       <a href="#comments" className="inline-flex h-9 items-center gap-2 border px-3 text-sm transition-colors hover:bg-muted">
         <MessageCircle className="size-4" /> 3
       </a>
       <button type="button" onClick={() => setBookmarked((value) => !value)} className={`inline-flex h-9 items-center gap-2 border px-3 text-sm transition-colors hover:bg-muted ${bookmarked ? "bg-brand text-white" : ""}`}>
         <Bookmark className="size-4" fill={bookmarked ? "currentColor" : "none"} />
-        {bookmarked ? "সংরক্ষিত" : "সংরক্ষণ"}
+        {bookmarked ? "Saved" : "Save"}
       </button>
       <button type="button" onClick={share} className="ml-auto inline-flex h-9 items-center gap-2 border px-3 text-sm transition-colors hover:bg-muted">
         {shared ? <Check className="size-4" /> : <Share2 className="size-4" />}
-        {shared ? "কপি হয়েছে" : "শেয়ার"}
+        {shared ? "Copied" : "Share"}
       </button>
     </div>
   );
