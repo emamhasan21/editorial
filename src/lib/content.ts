@@ -5,38 +5,31 @@ export type NavigationSection = {
 
 export const navigation: NavigationSection[] = [
   {
-    title: "Discover",
+    title: "পাঠাগার",
     items: [
-      { title: "Introduction", href: "/" },
-      { title: "Latest stories", href: "/blog" },
-      { title: "Standalone releases", href: "/releases" },
-      { title: "Topics", href: "/topics" },
+      { title: "প্রথম পাতা", href: "/" },
+      { title: "সকল বই", href: "/books" },
+      { title: "বইমালা", href: "/series" },
+      { title: "নতুন প্রকাশ", href: "/releases" },
     ],
   },
   {
-    title: "Library",
+    title: "লেখকসম্ভার",
     items: [
-      { title: "Books", href: "/books" },
-      { title: "Series", href: "/series" },
-      { title: "Writers", href: "/writers" },
+      { title: "ধ্রুপদি লেখক", href: "/writers#classic" },
+      { title: "সমকালীন লেখক", href: "/writers#current" },
+      { title: "সকল লেখক", href: "/writers" },
     ],
   },
   {
-    title: "Publishing",
+    title: "সাহিত্য বিভাগ",
     items: [
-      { title: "Writing guide", href: "/guides/writing" },
-      { title: "Block library", href: "/guides/blocks", badge: "New" },
-      { title: "Media", href: "/guides/media" },
-      { title: "Revisions", href: "/guides/revisions" },
-    ],
-  },
-  {
-    title: "Workspace",
-    items: [
-      { title: "Studio", href: "/studio" },
-      { title: "New release", href: "/studio/new" },
-      { title: "New chapter", href: "/studio/chapters/new" },
-      { title: "Settings", href: "/studio/settings" },
+      { title: "ছোটগল্প", href: "/releases?type=story" },
+      { title: "কবিতা", href: "/releases?type=poem" },
+      { title: "প্রবন্ধ", href: "/releases?type=essay" },
+      { title: "সাক্ষাৎকার", href: "/releases?type=interview" },
+      { title: "বই আলোচনা", href: "/releases?type=review" },
+      { title: "বিষয়ভিত্তিক সংগ্রহ", href: "/topics" },
     ],
   },
 ];

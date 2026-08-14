@@ -13,12 +13,14 @@ import {
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { AccountMenu } from "@/components/account-menu";
 import { navigation } from "@/lib/content";
 
 const primaryLinks = [
-  { href: "/blog", label: "Writing" },
-  { href: "/topics", label: "Topics" },
-  { href: "/guides/writing", label: "Guide" },
+  { href: "/books", label: "বই" },
+  { href: "/series", label: "বইমালা" },
+  { href: "/writers", label: "লেখক" },
+  { href: "/releases", label: "সাহিত্য" },
 ];
 
 export function SiteHeader() {
@@ -96,7 +98,7 @@ export function SiteHeader() {
               className="hidden h-9 w-56 items-center gap-2 border bg-muted/60 px-3 text-left text-sm text-muted-foreground transition-colors hover:bg-muted sm:flex"
             >
               <Search className="size-4" />
-              <span>Search...</span>
+              <span>খুঁজুন...</span>
               <kbd className="ml-auto flex items-center gap-0.5 border bg-background px-1.5 py-0.5 font-mono text-[10px]">
                 <Command className="size-2.5" />K
               </kbd>
@@ -110,7 +112,7 @@ export function SiteHeader() {
               <Search className="size-4" />
             </button>
             <a
-              href="https://github.com"
+              href="https://github.com/emamhasan21/editorial"
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub"
@@ -127,12 +129,7 @@ export function SiteHeader() {
               <Sun className="theme-icon-dark size-4" />
               <Moon className="theme-icon-light size-4" />
             </button>
-            <Link
-              href="/studio/new"
-              className="ml-1 hidden h-9 items-center bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 md:flex"
-            >
-              Start writing
-            </Link>
+            <AccountMenu />
           </div>
         </div>
       </header>
@@ -155,7 +152,7 @@ export function SiteHeader() {
               className="h-full w-[min(86vw,340px)] overflow-y-auto border-r bg-background p-6 shadow-2xl"
             >
               <div className="mb-8 flex items-center justify-between">
-                <span className="font-semibold">Navigate</span>
+                <span className="font-semibold">মেনু</span>
                 <button
                   type="button"
                   aria-label="Close navigation"
@@ -195,7 +192,7 @@ export function SiteHeader() {
                   autoFocus
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search posts, topics, and guides..."
+                  placeholder="বই, লেখক ও রচনা খুঁজুন..."
                   className="h-full min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
                 <kbd className="border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
@@ -204,7 +201,7 @@ export function SiteHeader() {
               </div>
               <div className="max-h-[52vh] overflow-y-auto p-2">
                 <p className="px-2 py-2 text-xs font-medium text-muted-foreground">
-                  {query ? "Results" : "Quick links"}
+                  {query ? "অনুসন্ধানের ফল" : "দ্রুত প্রবেশ"}
                 </p>
                 {results.map((item) => (
                   <button
@@ -222,7 +219,7 @@ export function SiteHeader() {
                 ))}
                 {!results.length && (
                   <p className="px-3 py-8 text-center text-sm text-muted-foreground">
-                    No page found for “{query}”.
+                    “{query}”–এর জন্য কিছু পাওয়া যায়নি।
                   </p>
                 )}
               </div>

@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { canCreateContent, canManageAuthors, canPublishContent } from "@/lib/permissions";
+import { canCreateContent, canManageAuthors, canManageRoles, canPublishContent } from "@/lib/permissions";
 
 export async function getRequestUser(request: Request) {
   const session = await auth.api.getSession({ headers: request.headers });
@@ -23,4 +23,9 @@ export async function requirePublisher(request: Request) {
 export async function requireAuthorManager(request: Request) {
   const user = await getRequestUser(request);
   return user && canManageAuthors(user.role) ? user : null;
+}
+
+export async function requireRoleManager(request: Request) {
+  const user = await getRequestUser(request);
+  return user && canManageRoles(user.role) ? user : null;
 }

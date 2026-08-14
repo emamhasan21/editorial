@@ -9,10 +9,11 @@ export function SiteFooter() {
           <p className="mt-1">বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।</p>
         </div>
         <nav className="flex flex-wrap gap-x-5 gap-y-2">
-          <Link href="/blog" className="hover:text-foreground">Writing</Link>
-          <Link href="/topics" className="hover:text-foreground">Topics</Link>
-          <Link href="/about" className="hover:text-foreground">About</Link>
-          <Link href="/studio" className="hover:text-foreground">Studio</Link>
+          <Link href="/books" className="hover:text-foreground">বই</Link>
+          <Link href="/series" className="hover:text-foreground">বইমালা</Link>
+          <Link href="/writers" className="hover:text-foreground">লেখক</Link>
+          <Link href="/releases" className="hover:text-foreground">সাহিত্য</Link>
+          <Link href="/about" className="hover:text-foreground">আমাদের কথা</Link>
         </nav>
       </div>
     </footer>
