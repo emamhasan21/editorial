@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { AuthForm } from "@/components/auth-form";
 import { auth } from "@/lib/auth";
 import { canAccessStudio } from "@/lib/permissions";
+import { siteInitial, siteName } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Writer sign in" };
 
@@ -14,7 +15,7 @@ export default async function LoginPage() {
   return (
     <main className="site-container grid min-h-[calc(100vh-4rem)] place-items-center py-12">
       <div className="w-full max-w-md border bg-card p-6 shadow-[var(--shadow)] sm:p-9">
-        <Link href="/" className="inline-flex items-center gap-2 font-semibold"><span className="grid size-7 place-items-center bg-foreground text-xs text-background">E</span>editorial</Link>
+        <Link href="/" aria-label={siteName} className="inline-flex items-center gap-2 font-semibold"><span aria-hidden className="grid size-7 place-items-center bg-foreground text-xs text-background">{siteInitial}</span>{siteName}</Link>
         <h1 className="mt-8 text-3xl font-semibold tracking-[-0.04em]">Enter the studio.</h1>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">Owners, administrators, editors, and writers sign in here with their assigned email and password.</p>
         <AuthForm />

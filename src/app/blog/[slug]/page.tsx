@@ -26,7 +26,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
   const excerpt = article?.excerpt ?? databasePost!.excerpt;
   const date = article?.date ?? (databasePost!.publishedAt ?? databasePost!.updatedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
   const minutes = article?.minutes ?? `${Math.max(1, Math.round(databasePost!.html.replace(/<[^>]+>/g, "").split(/\s+/).length / 220))} min read`;
-  const author = databasePost?.author ?? "Editorial team";
+  const author = databasePost?.author ?? "হ য ব র ল সম্পাদকমণ্ডলী";
   const toc = databasePost?.tableOfContents.length
     ? [...databasePost.tableOfContents.map((entry) => ({ title: entry.text, href: `#${entry.id}` })), { title: "Conversation", href: "#comments" }]
     : [

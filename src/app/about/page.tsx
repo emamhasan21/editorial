@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DocsShell } from "@/components/docs-shell";
 import { Reveal, WordReveal } from "@/components/reveal";
 import { SiteFooter } from "@/components/site-footer";
+import { siteName } from "@/lib/site";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -11,7 +12,7 @@ export default function AboutPage() {
       <Reveal><p className="font-mono text-xs uppercase tracking-[0.2em] text-brand">About</p></Reveal>
       <WordReveal className="mt-3 text-4xl font-semibold tracking-[-0.045em] sm:text-5xl">A quiet home for ambitious writing.</WordReveal>
       <div className="reading-copy mt-8">
-        <p>Editorial is a fully self-hosted Bangla literary publishing application for a small, serious team. It combines a visual block editor with a fast, carefully designed public reading site.</p>
+        <p>{siteName} is a fully self-hosted Bangla literary publishing application for a small, serious team. It combines a visual block editor with a fast, carefully designed public reading site.</p>
         <h2 id="principles">Built around durable choices</h2>
         <p>Content is stored as structured data. Media stays on your own server. The database, search index, sessions, and published HTML remain under your control. There is no third-party backend dependency.</p>
         <h2 id="start">Designed to grow deliberately</h2>

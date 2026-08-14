@@ -1,6 +1,6 @@
-# Editorial
+# হ য ব র ল
 
-A fast, self-hosted publishing application with a visual block editor and a documentation-inspired reading experience. It runs as one Next.js application with MariaDB/MySQL and local media storage—no WordPress and no hosted backend service.
+হ য ব র ল is a fast, self-hosted Bangla publishing application with a visual block editor and a documentation-inspired reading experience. It runs as one Next.js application with MariaDB/MySQL and local media storage—no WordPress and no hosted backend service.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6) ![MariaDB](https://img.shields.io/badge/MariaDB-self--hosted-003545) ![License](https://img.shields.io/badge/license-MIT-6d5dfc)
 
@@ -105,7 +105,7 @@ Authentication and authorization checks live at API/data boundaries. UI visibili
 
 ## Deployment
 
-See [docs/deployment.md](docs/deployment.md) for an IP-only VPS setup designed for 1 vCPU, 1 GB RAM, and an existing WordPress/MariaDB server. Editorial listens privately on port 3000 and Nginx exposes it through the server IP on port 80 while the WordPress domain remains on its own host.
+See [docs/deployment.md](docs/deployment.md) for an IP-only VPS setup designed for 1 vCPU, 1 GB RAM, and an existing WordPress/MariaDB server. হ য ব র ল listens privately on port 3000 and Nginx exposes it through the server IP on port 80 while the WordPress domain remains on its own host.
 
 ## Repository notes
 

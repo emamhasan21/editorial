@@ -3,6 +3,7 @@ import { ArrowRight, Blocks, Feather, Gauge, GitBranch, MoveRight, WandSparkles 
 import { AnimatedField } from "@/components/animated-field";
 import { DocsShell } from "@/components/docs-shell";
 import { Reveal, WordReveal } from "@/components/reveal";
+import { siteName } from "@/lib/site";
 
 const principles = [
   {
@@ -48,7 +49,7 @@ export default function Home() {
             </WordReveal>
             <Reveal delay={0.28}>
               <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Editorial is a self-hosted Bangla literary platform with the speed of an app,
+                {siteName} is a self-hosted Bangla literary platform with the speed of an app,
                 the flexibility of a block editor, and a reading experience that stays out
                 of the way.
               </p>

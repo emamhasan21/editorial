@@ -9,6 +9,7 @@ import { settings } from "@/db/schema";
 import { PublicationSettingsForm } from "@/components/studio/publication-settings-form";
 import { auth } from "@/lib/auth";
 import { canManageRoles } from "@/lib/permissions";
+import { siteName, siteTagline } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Settings · Studio" };
 export const dynamic = "force-dynamic";
@@ -21,7 +22,7 @@ export default async function SettingsStudioPage() {
   if (!canManageRoles(session.user.role)) redirect("/studio");
   const [record] = await db.select({ value: settings.value }).from(settings).where(eq(settings.key, "publication")).limit(1);
   const value = (record?.value ?? {}) as PublicationValue;
-  const publication = { name: value.name ?? "Editorial", description: value.description ?? "বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।", locale: value.locale ?? "bn" };
+  const publication = { name: value.name ?? siteName, description: value.description ?? siteTagline, locale: value.locale ?? "bn" };
 
   return (
     <div className="mx-auto max-w-6xl">

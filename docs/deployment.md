@@ -1,6 +1,6 @@
 # VPS deployment
 
-This layout exposes Editorial at `http://SERVER_IP` with no visible port. The Next.js server binds only to `127.0.0.1:3000`; Nginx is the public entry point. An existing WordPress domain can continue using its own Nginx server block, PHP pool, and database.
+This layout exposes হ য ব র ল at `http://SERVER_IP` with no visible port. The Next.js server binds only to `127.0.0.1:3000`; Nginx is the public entry point. An existing WordPress domain can continue using its own Nginx server block, PHP pool, and database.
 
 ## 1. Small-server requirements
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
+import { siteName, siteTagline } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,11 +16,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Editorial — independent publishing",
-    template: "%s — Editorial",
+    default: `${siteName} — স্বাধীন বাংলা সাহিত্য`,
+    template: `%s — ${siteName}`,
   },
-  description:
-    "বাংলা সাহিত্য পাঠ, সংরক্ষণ ও প্রকাশনার জন্য একটি দ্রুত, স্বনির্ভর প্ল্যাটফর্ম।",
+  description: siteTagline,
 };
 
 const themeScript = `

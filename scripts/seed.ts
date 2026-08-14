@@ -1,4 +1,5 @@
 import nextEnv from "@next/env";
+import { siteName, siteTagline } from "../src/lib/site";
 
 const { loadEnvConfig } = nextEnv;
 loadEnvConfig(process.cwd());
@@ -15,7 +16,7 @@ async function seed() {
 
   const email = process.env.SEED_OWNER_EMAIL ?? "owner@editorial.local";
   const password = process.env.SEED_OWNER_PASSWORD ?? "ChangeMe-Editorial-2026";
-  const ownerName = process.env.SEED_OWNER_NAME ?? "Editorial Owner";
+  const ownerName = process.env.SEED_OWNER_NAME ?? `${siteName} Owner`;
   let [owner] = await db.select().from(schema.users).where(eq(schema.users.email, email)).limit(1);
 
   if (!owner) {
@@ -28,7 +29,7 @@ async function seed() {
   const ownerAuthorId = "author_owner";
   await db.insert(schema.authors).values({
     id: ownerAuthorId, accountId: owner.id, slug: "editorial-owner", name: "সম্পাদকীয় লেখক",
-    englishName: "Editorial Writer", kind: "current", bio: "এই প্রকাশনার প্রতিষ্ঠাতা ও সম্পাদক।",
+    englishName: `${siteName} Writer`, kind: "current", bio: "এই প্রকাশনার প্রতিষ্ঠাতা ও সম্পাদক।",
     genres: ["প্রবন্ধ", "গল্প"], verified: true, featured: true,
   }).onDuplicateKeyUpdate({ set: { accountId: owner.id, verified: true } });
 
@@ -64,9 +65,9 @@ async function seed() {
   if (!existingPost) {
     const id = nanoid(); releaseId = id;
     await db.transaction(async (tx) => {
-      await tx.insert(schema.posts).values({ id, slug: postSlug, title: "Welcome to Editorial", subtitle: "A small release with a durable structure", kicker: "From the studio", releaseType: "note", excerpt: "The first database-backed story in your self-hosted publication.", document, renderedHtml: rendered.html, plainText: rendered.plainText, tableOfContents: rendered.tableOfContents, status: "published", visibility: "public", authorId: owner.id, publishedAt: new Date() });
+      await tx.insert(schema.posts).values({ id, slug: postSlug, title: `Welcome to ${siteName}`, subtitle: "A small release with a durable structure", kicker: "From the studio", releaseType: "note", excerpt: "The first database-backed story in your self-hosted publication.", document, renderedHtml: rendered.html, plainText: rendered.plainText, tableOfContents: rendered.tableOfContents, status: "published", visibility: "public", authorId: owner.id, publishedAt: new Date() });
       await tx.insert(schema.postAuthors).values({ postId: id, userId: owner.id, bylineOrder: 0 });
-      await tx.insert(schema.revisions).values({ id: nanoid(), postId: id, authorId: owner.id, title: "Welcome to Editorial", document, renderedHtml: rendered.html, changeNote: "Seeded first version" });
+      await tx.insert(schema.revisions).values({ id: nanoid(), postId: id, authorId: owner.id, title: `Welcome to ${siteName}`, document, renderedHtml: rendered.html, changeNote: "Seeded first version" });
     });
   } else {
     await db.update(schema.posts).set({ subtitle: "A small release with a durable structure", kicker: "From the studio", releaseType: "note", document, renderedHtml: rendered.html, plainText: rendered.plainText, tableOfContents: rendered.tableOfContents }).where(eq(schema.posts.id, existingPost.id));
@@ -103,7 +104,7 @@ async function seed() {
 
   await db.insert(schema.chapterRevisions).values({ id: "revision_chapter_seed", chapterId, userId: owner.id, title: "প্রথম যাত্রা", document: chapterDocument, renderedHtml: chapterRendered.html, changeNote: "Seeded first version" }).onDuplicateKeyUpdate({ set: { renderedHtml: chapterRendered.html } });
 
-  await db.insert(schema.settings).values({ key: "publication", value: { name: "Editorial", description: "বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।", locale: "bn" } }).onDuplicateKeyUpdate({ set: { value: { name: "Editorial", description: "বাংলা সাহিত্য, সুন্দর পাঠ ও স্বাধীন প্রকাশনা।", locale: "bn" } } });
+  await db.insert(schema.settings).values({ key: "publication", value: { name: siteName, description: siteTagline, locale: "bn" } }).onDuplicateKeyUpdate({ set: { value: { name: siteName, description: siteTagline, locale: "bn" } } });
 
   console.log(`Seed complete. Owner: ${email}`);
   if (process.env.NODE_ENV !== "production") console.log(`Development password: ${password}`);

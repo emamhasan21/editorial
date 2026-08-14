@@ -15,6 +15,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { AccountMenu } from "@/components/account-menu";
 import { navigation } from "@/lib/content";
+import { siteInitial, siteName } from "@/lib/site";
 
 const primaryLinks = [
   { href: "/books", label: "বই" },
@@ -72,11 +73,11 @@ export function SiteHeader() {
             <Menu className="size-5" />
           </button>
 
-          <Link href="/" className="group flex items-center gap-2 font-semibold tracking-tight">
-            <span className="grid size-7 place-items-center bg-foreground text-xs text-background transition-transform duration-300 group-hover:-rotate-3">
-              E
+          <Link href="/" aria-label={siteName} className="group flex items-center gap-2 font-semibold tracking-tight">
+            <span aria-hidden className="grid size-7 place-items-center bg-foreground text-xs text-background transition-transform duration-300 group-hover:-rotate-3">
+              {siteInitial}
             </span>
-            <span>editorial</span>
+            <span>{siteName}</span>
           </Link>
 
           <nav className="ml-4 hidden items-center gap-5 text-sm text-muted-foreground md:flex">

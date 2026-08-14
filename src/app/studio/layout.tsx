@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { StudioNav } from "@/components/studio-nav";
 import { auth } from "@/lib/auth";
 import { canAccessStudio, roleLabel } from "@/lib/permissions";
+import { siteName } from "@/lib/site";
 
 export default async function StudioLayout({ children }: LayoutProps<"/studio">) {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -12,7 +13,7 @@ export default async function StudioLayout({ children }: LayoutProps<"/studio">)
       <aside className="border-b bg-muted/15 lg:sticky lg:top-16 lg:flex lg:h-[calc(100vh-4rem)] lg:flex-col lg:border-b-0 lg:border-r">
         <div className="hidden border-b px-7 pb-5 pt-8 lg:block">
           <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">Workspace</p>
-          <p className="mt-1 font-semibold">Editorial Studio</p>
+          <p className="mt-1 font-semibold">{siteName} Studio</p>
         </div>
         <StudioNav role={session.user.role} />
         <div className="mt-auto hidden border-t p-5 lg:block">
